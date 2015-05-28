@@ -48,7 +48,7 @@ describe 'uchiwa' do
         }
 
         context 'with puppet-apt installed' do
-          let(:pre_condition) { [ 'define apt::source ($ensure, $location, $release, $repos, $include_src, $key, $key_source) {}' ] }
+          let(:pre_condition) { [ 'define apt::source ($ensure, $location, $release, $repos, $include, $key) {}' ] }
 
           context 'default' do
             it { should contain_apt__source('sensu').with(
@@ -56,9 +56,8 @@ describe 'uchiwa' do
               :location    => 'http://repos.sensuapp.org/apt',
               :release     => 'sensu',
               :repos       => 'main',
-              :include_src => false,
-              :key         => '7580C77F',
-              :key_source  => 'http://repos.sensuapp.org/apt/pubkey.gpg',
+              :include     => { 'src' => false, 'deb' => true },
+              :key         => { 'id'     => '8911D8FF37778F24B4E726A218609E3D7580C77F', 'source' => 'http://repos.sensuapp.org/apt/pubkey.gpg' },
               :before      => 'Package[uchiwa]'
             ) }
           end
